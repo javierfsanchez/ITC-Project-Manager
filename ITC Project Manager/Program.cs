@@ -1,9 +1,21 @@
 using ITC_Project_Manager.Models;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:4200"
+                                ).AllowAnyHeader()
+                                                  .AllowAnyMethod();
+        });
+});
 
 // Add services to the container.
 
@@ -22,7 +34,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseCors();
 app.UseAuthorization();
 
 app.MapControllers();
